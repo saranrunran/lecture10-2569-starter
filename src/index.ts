@@ -8,8 +8,14 @@ import invalidJsonMiddleware from "./middlewares/invalidJsonMiddleware.ts";
 import notFoundMiddleware from "./middlewares/notFoundMiddleware.ts";
 
 // Check DB connection
+import { checkDatabaseConnection } from "./libs/checkDbConnection.ts";
+checkDatabaseConnection();
 
 // import routes
+import studentRouter_v3 from "./routes/studentsRoutes_v3.ts";
+import courseRouter_v3 from "./routes/coursesRouters_v3.ts";
+import userRouter_v3 from "./routes/usersRouters_v3.ts";
+import fileRouter_v1 from "./routes/fileRouters_v1.ts";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,6 +50,10 @@ app.get("/me", (req: Request, res: Response) => {
 });
 
 // use routers
+app.use("/api/v3/users", userRouter_v3);
+app.use("/api/v3/students", studentRouter_v3);
+app.use("/api/v3/courses", courseRouter_v3);
+app.use('/api/v3/file',fileRouter_v1);  
 
 // endpoint check middleware
 app.use(notFoundMiddleware);
